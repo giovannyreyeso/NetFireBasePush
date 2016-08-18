@@ -11,10 +11,10 @@ Only send to a one target (phone)
     FireBasePush push = new FireBasePush("token_here");
    2) Call the method SendPush
     push.SendPush(new PushMessage
+    {
+      to = "token_target",
+      notification = new PushMessageData
       {
-        to = "token_target",
-        notification = new PushMessageData
-        {
             title = "title push",
             text = "body text",
             click_action = click_action
