@@ -1,6 +1,6 @@
 # NetFireBasePush
 C# Class for send push notification to firebase 
-Only send to a one target (phone)
+Send only to a one target (phone) or a topic
 
 # How to use
   Copy / Add the class to your own proyect
@@ -15,7 +15,7 @@ FireBasePush push = new FireBasePush("token_here");
 ```c#
 push.SendPush(new PushMessage
 {
-	to = "token_target",
+	to = "token_target", //for a topic to": "/topics/foo-bar"
 	notification = new PushMessageData
 	{
 		title = "title push",
