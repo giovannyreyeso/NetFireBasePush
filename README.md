@@ -2,6 +2,9 @@
 C# Class for send push notification to firebase 
 Send only to a one target (phone) or a topic
 
+# Some bugs?
+if you find a bug please feel free to open a new issue with the details of the bug
+
 # How to use
   Copy / Add the class to your own proyect
 # How to send push
@@ -13,7 +16,7 @@ FireBasePush push = new FireBasePush("token_here");
 ```
 	2) Call the method SendPush:
 ```c#
-push.SendPush(new PushMessage
+push.SendPush(new PushMessage()
 {
 	to = "token_target", //for a topic to": "/topics/foo-bar"
 	notification = new PushMessageData
