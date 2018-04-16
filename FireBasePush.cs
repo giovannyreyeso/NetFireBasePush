@@ -11,43 +11,39 @@ namespace _WEBAPP
 {
     public class FireBasePush
     {
-        private string FireBase_URL = "https://fcm.googleapis.com/fcm/send";
-        private string key_server;
-        public FireBasePush(String Key_Server)
+        private string FIREBASE_URL = "https://fcm.googleapis.com/fcm/send";
+        private string KEY_SERVER;
+        public FireBasePush(String key_server)
         {
-            this.key_server = Key_Server;
+            this.KEY_SERVER = key_server;
         }
         public dynamic SendPush(PushMessage message)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(FireBase_URL);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(FIREBASE_URL);
             request.Method = "POST";
-            request.Headers.Add("Authorization", "key=" + this.key_server);
+            request.Headers.Add("Authorization", "key=" + this.KEY_SERVER);
             request.ContentType = "application/json";
             string json = JsonConvert.SerializeObject(message);
-            //json = json.Replace("content_available", "content-available");
             byte[] byteArray = Encoding.UTF8.GetBytes(json);
             request.ContentLength = byteArray.Length;
             Stream dataStream = request.GetRequestStream();
             dataStream.Write(byteArray, 0, byteArray.Length);
             dataStream.Close();
-            HttpWebResponse respuesta = (HttpWebResponse)request.GetResponse();
-            if (respuesta.StatusCode == HttpStatusCode.Accepted || respuesta.StatusCode == HttpStatusCode.OK || respuesta.StatusCode == HttpStatusCode.Created)
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            if (response.StatusCode == HttpStatusCode.Accepted || response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
             {
-                StreamReader read = new StreamReader(respuesta.GetResponseStream());
+                StreamReader read = new StreamReader(response.GetResponseStream());
                 String result = read.ReadToEnd();
                 read.Close();
-                respuesta.Close();
+                response.Close();
                 dynamic stuff = JsonConvert.DeserializeObject(result);
-
                 return stuff;
             }
             else
             {
-                throw new Exception("Ocurrio un error al obtener la respuesta del servidor: " + respuesta.StatusCode);
+                throw new Exception("An error has occurred when try to get server response: " + response.StatusCode);
             }
         }
-
-
     }
     public class PushMessage
     {
@@ -92,7 +88,6 @@ namespace _WEBAPP
         private string _title;
         private string _text;
         private string _sound = "default";
-        //private dynamic _content_available;
         private string _click_action;
         public string sound
         {
@@ -123,18 +118,5 @@ namespace _WEBAPP
                 _click_action = value;
             }
         }
-
-        //public dynamic content_available
-        //{
-        //    get
-        //    {
-        //        return _content_available;
-        //    }
-
-        //    set
-        //    {
-        //        _content_available = value;
-        //    }
-        //}
     }
 }
